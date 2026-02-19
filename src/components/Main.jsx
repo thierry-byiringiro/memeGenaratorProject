@@ -1,11 +1,20 @@
 import { useState } from "react";
 
 export default function Main() {
-    const [meme,setMeme] = useState({
-        topText : "ONE DOES NOT SIMPLY",
-        bottomText : "WALK INTO MORDOR",
-        imageUrl: "http://i.imgflip.com/1bij.jpg",
-    })
+  const [meme, setMeme] = useState({
+    topText: "ONE DOES NOT SIMPLY",
+    bottomText: "WALK INTO MORDOR",
+    imageUrl: "http://i.imgflip.com/1bij.jpg",
+  });
+  function handleChange(event) {
+    const { value,name } = event.currentTarget;
+    setMeme((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  }
   return (
     <main className="flex flex-col space-y-6">
       <div className="flex flex-col text-white space-y-10">
@@ -16,7 +25,9 @@ export default function Main() {
               type="text"
               placeholder="One does not simply"
               name="topText"
-              className="bg-white w-55 p-2 rounded-sm border border-[#D1D5DB] placeholder-[#6B7280] px-2"
+              onChange={handleChange}
+              value={meme.topText}
+              className="bg-white w-55 p-2 rounded-sm border border-[#D1D5DB] placeholder-[#6B7280] px-2 text-black"
             />
           </div>
           <div className="flex flex-col">
@@ -25,7 +36,9 @@ export default function Main() {
               type="text"
               placeholder="Walk into Mordor"
               name="bottomText"
-              className="bg-white w-55 p-2 rounded-sm border border-[#D1D5DB] placeholder-[#6B7280] px-2"
+              onChange={handleChange}
+              value={meme.bottomText}
+              className="bg-white w-55 p-2 rounded-sm border border-[#D1D5DB] placeholder-[#6B7280] px-2 text-black"
             />
           </div>
         </div>
@@ -38,7 +51,7 @@ export default function Main() {
         <span className="justify-self-center self-center text-4xl text-white font-bold -mt-116 anton [-webkit-text-stroke:2px_black]">
           {meme.topText.toUpperCase()}
         </span>
-       <span className="justify-self-center self-center text-4xl text-white font-bold -mt-16 anton [-webkit-text-stroke:2px_black]">
+        <span className="justify-self-center self-center text-4xl text-white font-bold -mt-16 anton [-webkit-text-stroke:2px_black]">
           {meme.bottomText.toUpperCase()}
         </span>
       </div>
