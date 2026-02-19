@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Main() {
+  const [arr, setArr] = useState([]);
+  useEffect(() => {
+    fetch("https://api.imgflip.com/get_memes")
+      .then((res) => res.json())
+      .then((data) => setArr(data.data.memes));
+  }, []);
+
+  function handleImageUrl() {
+    const getRandomIndex = Math.floor(Math.random() * arr.length);
+    const getTheUrl = arr[getRandomIndex].url;
+
+    setMeme((prevValue) => {
+      return {
+        ...prevValue,
+        imageUrl: getTheUrl,
+      };
+    });
+  }
   const [meme, setMeme] = useState({
     topText: "ONE DOES NOT SIMPLY",
     bottomText: "WALK INTO MORDOR",
     imageUrl: "http://i.imgflip.com/1bij.jpg",
   });
+
   function handleChange(event) {
-    const { value,name } = event.currentTarget;
+    const { value, name } = event.currentTarget;
     setMeme((prevValue) => {
       return {
         ...prevValue,
@@ -42,12 +61,15 @@ export default function Main() {
             />
           </div>
         </div>
-        <button className="col-span-2 bg-linear-to-r from-[#711F8D] to-[#A818DA] w-110 h-10 rounded-md">
+        <button
+          onClick={handleImageUrl}
+          className="col-span-2 bg-linear-to-r from-[#711F8D] to-[#A818DA] w-110 h-10 rounded-md"
+        >
           Get a new meme image 🖼
         </button>
       </div>
       <div className="grid">
-        <img src={meme.imageUrl} className="w-110" />
+        <img src={meme.imageUrl} className="w-110 max-h-full object-contain" />
         <span className="justify-self-center self-center text-4xl text-white font-bold -mt-116 anton [-webkit-text-stroke:2px_black]">
           {meme.topText.toUpperCase()}
         </span>
